@@ -35,6 +35,15 @@ angular.module('starter.services', [])
   return {
 	getUser: function(){
 		return user;
+	},
+	reset: function(){
+		user.userName = '';
+		user.firstName = '';
+		user.lastName = '';
+		user.email = '';
+		user.password = '';
+		user.retypePassword = '';
+		user.signedIn = false;
 	}
   }
 })

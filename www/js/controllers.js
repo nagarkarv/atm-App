@@ -1,7 +1,7 @@
 angular.module('starter.controllers', ['ngCordova'])
 //angular.module('starter.controllers', [])
 
-.controller('SignUpCtrl', function($scope,User,$state) {
+.controller('SignUpCtrl', function($scope, User, $state, $rootScope) {
 	//$scope.UserInfo = User.all();
 	$scope.userInfo = User.getUser();
 	
@@ -9,12 +9,24 @@ angular.module('starter.controllers', ['ngCordova'])
 	// TODO
 	console.log('Signed in:'+userInfo.userName);
 	$state.go('tab.atmlive');
+	$scope.userInfo.signedIn = true;
+	$rootScope.loggedIn = $scope.userInfo.signedIn;
 	};
 	
 	$scope.login = function(){
 	// TODO
-	$urlRouterProvider.otherwise('/tab/atmlive');
+		//$urlRouterProvider.otherwise('/tab/atmlive');
+		$scope.userInfo.signedIn = true;
+		$rootScope.loggedIn = $scope.userInfo.signedIn;
+		$state.go('tab.atmlive');
 	};
+	
+	$rootScope.$on('logout', function (event, data) {
+		console.log('SignUpCtrl'+data); // 'Data to send'
+		User.reset();
+		$rootScope.loggedIn = false;
+		$state.go('tab.signup');
+		});	
 	})
 
 .controller('ATMLiveCtrl', function($scope) {
