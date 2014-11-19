@@ -8,7 +8,7 @@
 //angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','ngCordova'])
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
-.run(function($ionicPlatform,$rootScope) {
+.run(function($ionicPlatform,$rootScope, User) {
  
  $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -21,13 +21,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       StatusBar.styleDefault();
     }
   });
-  $rootScope.loggedIn = false;
-  
-  $rootScope.logout = function(){
-	$rootScope.loggedIn = false;
-	console.log('App broadcasting logout'); // 'Data to send'
-	$rootScope.$broadcast('logout', 'logout');
-  }
+  $rootScope.userInfo = User.getUser();
 })
 
 .config(function($stateProvider, $urlRouterProvider) {

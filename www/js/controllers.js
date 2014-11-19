@@ -2,31 +2,24 @@ angular.module('starter.controllers', ['ngCordova'])
 //angular.module('starter.controllers', [])
 
 .controller('SignUpCtrl', function($scope, User, $state, $rootScope) {
-	//$scope.UserInfo = User.all();
-	$scope.userInfo = User.getUser();
 	
 	$scope.signUp = function(userInfo){
-	// TODO
-	console.log('Signed in:'+userInfo.userName);
-	$state.go('tab.atmlive');
-	$scope.userInfo.signedIn = true;
-	$rootScope.loggedIn = $scope.userInfo.signedIn;
+		console.log('Signed in:'+userInfo.userName);
+		$state.go('tab.atmlive');
+		$rootScope.userInfo.signedIn = true;
 	};
 	
 	$scope.login = function(){
-	// TODO
-		//$urlRouterProvider.otherwise('/tab/atmlive');
-		$scope.userInfo.signedIn = true;
-		$rootScope.loggedIn = $scope.userInfo.signedIn;
+		$rootScope.userInfo.signedIn = true;
 		$state.go('tab.atmlive');
 	};
-	
-	$rootScope.$on('logout', function (event, data) {
-		console.log('SignUpCtrl'+data); // 'Data to send'
+
+	// at $rootScope so can be called from throughout the application.
+	$rootScope.logout = function(){
 		User.reset();
-		$rootScope.loggedIn = false;
 		$state.go('tab.signup');
-		});	
+		console.log('SignUpCtrl: Logout'); // 'Data to send'
+	};
 	})
 
 .controller('ATMLiveCtrl', function($scope) {

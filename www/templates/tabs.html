@@ -6,23 +6,23 @@
 <ion-tabs class="tabs-icon-top tabs-royal">
 
   <!-- Sign up Tab -->
-  <ion-tab title="Sign Up" icon="icon ion-home" href="#/tab/signup" hidden="{{loggedIn}}">
+  <ion-tab title="Sign Up" icon="icon ion-home" href="#/tab/signup" hidden="{{userInfo.signedIn}}">
 	<ion-nav-view name="tab-signup"></ion-nav-view>
   </ion-tab>
 
   <!-- ATM Live Tab -->
-  <ion-tab title="ATM Live" icon="icon ion-home" href="#/tab/atmlive" hidden="{{!loggedIn}}">
+  <ion-tab title="ATM Live" icon="icon ion-home" href="#/tab/atmlive" hidden="{{!userInfo.signedIn}}">
   	<ion-nav-view name="tab-atmlive">
 	</ion-nav-view>
   </ion-tab>
 
   <!-- Friends Tab -->
-  <ion-tab title="Friends" icon="icon ion-heart" href="#/tab/friends" hidden="{{!loggedIn}}">
+  <ion-tab title="Friends" icon="icon ion-heart" href="#/tab/friends" hidden="{{!userInfo.signedIn}}">
     <ion-nav-view name="tab-friends"></ion-nav-view>
   </ion-tab>
 
     <!-- Settings Tab -->
-  <ion-tab title="Settings" icon="icon ion-gear-b" href="#/tab/settings" hidden="{{!loggedIn}}">
+  <ion-tab title="Settings" icon="icon ion-gear-b" href="#/tab/settings" hidden="{{!userInfo.signedIn}}">
     <ion-nav-view name="tab-settings"></ion-nav-view>
   </ion-tab>
 
