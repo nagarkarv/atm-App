@@ -20,6 +20,16 @@ angular.module('starter.controllers', ['ngCordova'])
 		$state.go('tab.signup');
 		console.log('SignUpCtrl: Logout'); // 'Data to send'
 	};
+	
+	$scope.fakeData = function(){
+		$rootScope.userInfo.firstName = faker.name.firstName(); 
+		$rootScope.userInfo.email = faker.internet.email(); 
+		$rootScope.userInfo.lastName = faker.name.lastName();
+		$rootScope.userInfo.userName = $rootScope.userInfo.firstName + '.' + $rootScope.userInfo.lastName;
+		$rootScope.userInfo.password = 'passw0rd';
+		$rootScope.userInfo.retypePassword = 'passw0rd';
+		console.log('Fake Data generated');
+	}
 	})
 
 .controller('ATMLiveCtrl', function($scope) {

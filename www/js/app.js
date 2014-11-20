@@ -21,6 +21,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       StatusBar.styleDefault();
     }
   });
+  
+   $ionicPlatform.registerBackButtonAction(function(event){
+		event.preventDefault();
+		event.stopPropagation();
+		ionic.Platform.exitApp();
+    },100);
+	
   $rootScope.userInfo = User.getUser();
 })
 

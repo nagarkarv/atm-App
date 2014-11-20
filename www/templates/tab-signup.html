@@ -1,35 +1,56 @@
 <ion-view title="Sign Up">
   <ion-content class="padding" >
-	<div class="list">
-		<label class="item item-input">
-			<input type="text" placeholder="User Name" data-ng-model="userInfo.userName">
-		</label>
-		<label class="item item-input">
-			<input type="text" placeholder="First Name" data-ng-model="userInfo.firstName">
-		</label>
-		<label class="item item-input">
-			<input type="text" placeholder="Last Name" data-ng-model="userInfo.lastName">
-		</label>
-		<label class="item item-input">
-			<input type="text" placeholder="Email" data-ng-model="userInfo.email">
-		</label>
-		<label class="item item-input">
-			<input type="password" placeholder="Password" data-ng-model="userInfo.password">
-		</label>
-		<label class="item item-input">
-			<input type="password" placeholder="Retype password" data-ng-model="userInfo.retypePassword">
-		</label>
-	</div>
 	<div>
-		<button class="button button-clear button-positive" data-ng-click="login();">
-		Login
-		</button>
+	<form name="signupForm" ng-submit="signUp(userInfo)">
+		<div class="form-group" ng-class="{'has-error': signupForm.userName.$invalid}"> 
+			<input class="form-control" name="userName" type="text" 
+			 placeholder="User Name" required ng-model="userInfo.userName" />
+			<span class="help-block" 
+			 ng-show="signupForm.userName.$error.required">Required</span>
+		</div>	 
+		<div class="form-group" ng-class="{'has-error': signupForm.firstName.$invalid}">   
+			<input class="form-control" name="firstName" type="text" 
+			 placeholder="First Name" required ng-model="userInfo.firstName" />
+			<span class="help-block" 
+			 ng-show="signupForm.firstName.$error.required">Required</span>
 		</div>
-		<div>
-		<button class="button button-clear button-positive" data-ng-click="signUp(userInfo);">
-		Sign Up
-		</button>
+		<div class="form-group" ng-class="{'has-error': signupForm.lastName.$invalid}">   
+			<input class="form-control" name="lastName" type="text" 
+			 placeholder="Last Name" required ng-model="userInfo.lastName" />
+			<span class="help-block" 
+			 ng-show="signupForm.lastName.$error.required">Required</span>
 		</div>
+		<div class="form-group" ng-class="{'has-error': signupForm.email.$invalid}">
+			<input class="form-control" name="email" type="email" 
+			 placeholder="Email" required ng-model="userInfo.email" />
+			<span class="help-block" 
+			 ng-show="signupForm.email.$error.required">Required</span>
+		</div>
+		<div class="form-group" ng-class="{'has-error': signupForm.password.$invalid}">   
+			<input class="form-control" name="password" type="password" 
+			 placeholder="Password" required ng-model="userInfo.password" />
+			<span class="help-block" 
+			 ng-show="signupForm.password.$error.required">Required</span>
+		</div>	 
+		<div class="form-group" ng-class="{'has-error': signupForm.retypePassword.$invalid}">
+			<input class="form-control" name="retypePassword" type="password" 
+			 placeholder="Password" required ng-model="userInfo.retypePassword" />
+			<span class="help-block" 
+			 ng-show="signupForm.retypePassword.$error.required">Required</span>
+		</div>
+		<div class="form-group">
+			<button class="form-control" type="submit" ng-disabled="!signupForm.$valid">
+			<span>Sign Up</span>
+			</button>
+			<button class="form-control" type="submit">
+			<span>Login</span>
+			</button>
+		</div>		
+	</form>
+	<div>
+		<button data-ng-click = "fakeData();">
+			<span>Fake</span>
+		</button>
 	</div>
   </ion-content>
 </ion-view>
