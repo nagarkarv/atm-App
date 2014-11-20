@@ -1,17 +1,18 @@
 angular.module('starter.services', [])
 
 .factory('Settings', function() {
+
   // Might use a resource here that returns a JSON array
   // Some fake testing data
   var settingConfig = [
-    { id: 0, name: 'Facebook', com:'com.facebook.katana',allow: true, icon: 'ion-social-facebook'},
-    { id: 1, name: 'Twitter', com:'com.twitter.android',allow: true, icon: 'ion-social-twitter' },
-    { id: 2, name: 'WhatsApp',com:'com.whatsapp',allow: true, icon: 'ion-android-chat' },
-    { id: 3, name: 'Instagram', com:'com.app.instagram',allow: true, icon: 'ion-social-instagram' },
-    { id: 4, name: 'Youtube', com:'com.app.youtube',allow: true, icon: 'ion-social-youtube'},
-    { id: 5, name: 'Linkedin', com:'com.app.linkedin',allow: true, icon: 'ion-social-linkedin'},
-    { id: 6, name: 'Google+',com:'com.app.googleplus',allow: true, icon: 'ion-social-googleplus' },
-    { id: 7, name: 'Reddit', com:'com.app.reddit',allow: true, icon: 'ion-social-reddit' }
+    { id: 0, name: 'Facebook', com:'com.facebook.katana',allow: false, installed: true, icon: 'ion-social-facebook'},
+    { id: 1, name: 'Twitter', com:'com.twitter.android',allow: false, installed: true, icon: 'ion-social-twitter' },
+    { id: 2, name: 'WhatsApp',com:'com.whatsapp',allow: false, installed: true, icon: 'ion-android-chat' },
+    { id: 3, name: 'Instagram', com:'com.app.instagram',allow: false, installed: false, icon: 'ion-social-instagram' },
+    { id: 4, name: 'Youtube', com:'com.app.youtube',allow: false, installed: false, icon:'ion-social-youtube'},
+    { id: 5, name: 'Linkedin', com:'com.app.linkedin',allow: false, installed: false, icon: 'ion-social-linkedin'},
+    { id: 6, name: 'Google+',com:'com.app.googleplus',allow: false, installed: false, icon: 'ion-social-googleplus' },
+    { id: 7, name: 'Reddit', com:'com.app.reddit',allow: false, installed: false, icon: 'ion-social-reddit' }
   ];
 
   return {
@@ -21,7 +22,21 @@ angular.module('starter.services', [])
     get: function(appId) {
       // Simple index lookup
       return settingConfig[appId];
-    }
+    },
+	updateAppInstalled: function(appId){
+		console.log('Settings - updating app installed:' + appId); 
+		/*$cordovaAppAvailability
+		.check(settingConfig[appId].id)
+		.then(function(success) {
+		  settingConfig[appId].allow = true;
+		  return true;
+		},
+		function (error) {
+		  settingConfig[appId].allow = false;
+		  return false;
+		});	
+		*/
+	}
   }
 })
 
