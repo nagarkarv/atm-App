@@ -1,14 +1,11 @@
 angular.module('starter.controllers', ['ngCordova'])
 //angular.module('starter.controllers', [])
 
-.controller('SignUpCtrl', function($scope, User, $state, $rootScope) {
-	var SOCKET_URL = 'localhost:8000';
-	var socket=io(SOCKET_URL);
-	
+.controller('SignUpCtrl', function($scope, User, $state, $rootScope, SocketIO) {
+
 	$scope.signUp = function(userInfo){
 		console.log('Signed in:'+userInfo.userName);
-		//var SOCKET_URL = 'localhost:8000';
-		//var socket=io(SOCKET_URL);
+		var socket = SocketIO.getSocket();
 		console.log('Socket = '+socket);
 		socket.emit('atm:signup',userInfo);
 		$state.go('tab.atmlive');
@@ -16,6 +13,7 @@ angular.module('starter.controllers', ['ngCordova'])
 	};
 	
 	$scope.login = function(){
+		var socket = SocketIO.getSocket();
 		socket.emit('atm:login',$rootScope.userInfo);
 		$rootScope.userInfo.signedIn = true;
 		$state.go('tab.atmlive');
@@ -23,6 +21,7 @@ angular.module('starter.controllers', ['ngCordova'])
 
 	// at $rootScope so can be called from throughout the application.
 	$rootScope.logout = function(){
+		var socket = SocketIO.getSocket();
 		socket.emit('atm:logout',$rootScope.userInfo);
 		User.reset();
 		$state.go('tab.signup');

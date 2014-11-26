@@ -63,6 +63,19 @@ angular.module('starter.services', [])
   }
 })
 
+
+// Socket service to connect to the server
+.factory('SocketIO', function() {
+	var SOCKET_URL = 'localhost:8000';
+	var socket=io(SOCKET_URL);
+	
+	return {
+	getSocket: function(){
+		return socket;
+	}
+  }
+})
+
 /**
  * A simple example service that returns some data.
  */
