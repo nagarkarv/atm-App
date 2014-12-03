@@ -6,7 +6,7 @@
     </ion-nav-buttons>
   <ion-content class="padding" >
 		<ul class="list">
-		  <li class="item item-toggle" data-ng-show="setting.installed" ng-repeat="setting in settingsConfig" type="item-text-wrap" href="#/tab/settings/{{setting.id}}">
+		  <li class="item item-toggle" data-ng-show="setting.installed" ng-repeat="setting in userInfo.settings" type="item-text-wrap" href="#/tab/settings/{{setting.id}}">
 			{{setting.name}}<i class="icon {{setting.icon}}"></i>
 			 <label class="toggle toggle-assertive">
 			   <input type="checkbox" data-ng-model="setting.allow" data-ng-disabled = "!setting.installed">

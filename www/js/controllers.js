@@ -1,31 +1,54 @@
 angular.module('starter.controllers', ['ngCordova'])
 //angular.module('starter.controllers', [])
 
-.controller('SignUpCtrl', function($scope, User, $state, $rootScope, SocketIO) {
+.controller('SignUpCtrl', function($scope, $state, $rootScope, SocketIO, User) {
 
 	$scope.signUp = function(userInfo){
-		console.log('Signed in:'+userInfo.userName);
 		var socket = SocketIO.getSocket();
 		console.log('Socket = '+socket);
+	
+		// Sign up
 		socket.emit('atm:signup',userInfo);
-		$state.go('tab.atmlive');
-		$rootScope.userInfo.signedIn = true;
+		socket.on ('atm:signup'+'SUCCESS', function (userInfo) {
+			console.log('@@@Success received: Signed in:'+userInfo.userName);
+			$state.go('tab.atmlive');
+			$rootScope.userInfo = userInfo;
+		});
+
+		// get user settings
+		console.log('Emit GetSettings for:'+userInfo.userName);
+		socket.emit('atm:getSettings',$rootScope.userInfo);
+		socket.on ('atm:getSettings'+'SUCCESS', function (settings) {
+			console.log('getSettings Success:'+userInfo.userName);
+			$rootScope.userInfo.settings = settings;
+		});
+		
+		socket.on ('atm:signup'+'ERROR', function (userInfo) {
+			console.log('@@@Error in signing user:'+userInfo.userName);
+			$rootScope.userInfo = userInfo;
+		});
 	};
 	
 	$scope.login = function(){
 		var socket = SocketIO.getSocket();
 		socket.emit('atm:login',$rootScope.userInfo);
-		$rootScope.userInfo.signedIn = true;
-		$state.go('tab.atmlive');
+		socket.on ('atm:login'+'SUCCESS', function (data) {
+			console.log('@@@Success received: Logged in:'+userInfo.userName);
+			$state.go('tab.atmlive');
+			$rootScope.userInfo.signedIn = true;
+		});
 	};
 
 	// at $rootScope so can be called from throughout the application.
 	$rootScope.logout = function(){
 		var socket = SocketIO.getSocket();
 		socket.emit('atm:logout',$rootScope.userInfo);
-		User.reset();
-		$state.go('tab.signup');
-		console.log('SignUpCtrl: Logout'); // 'Data to send'
+		socket.on ('atm:logout'+'SUCCESS', function (userInfo) {
+			console.log('@@@Success received: User Logged out:'+userInfo.userName);
+			User.reset();
+			$rootScope.userInfo = User.getUser();
+			$state.go('tab.signup');
+		});
 	};
 	
 	$scope.fakeData = function(){
@@ -42,34 +65,31 @@ angular.module('starter.controllers', ['ngCordova'])
 .controller('ATMLiveCtrl', function($scope) {
 })
 
-.controller('SettingsCtrl', function($scope,Settings, $cordovaAppAvailability,$ionicPlatform) {
-	$scope.settingsConfig = Settings.all();
+.controller('SettingsCtrl', function($scope,Settings, $rootScope, $ionicPlatform) {
+//.controller('SettingsCtrl', function($scope,Settings, $rootScope, $cordovaAppAvailability,$ionicPlatform) {
 
 	$scope.IsAppAvailiable = function(appId){
 				$cordovaAppAvailability
-				.check($scope.settingsConfig[appId].com)
+				.check($rootScope.userInfo.settings[appId].com)
 				.then(function(success) {
-				  $scope.settingsConfig[appId].installed = true;
+				  $rootScope.userInfo.settings[appId].installed = true;
 				  $scope.text = 'checked, return true:'+appId;
 				  return true;
 				},
 				function (error) {
-				  $scope.settingsConfig[appId].installed = false;
+				  $rootScope.userInfo.settings[appId].installed = false;
 				  $scope.text = 'checked, return false:' + appId;
 				  return false;
 				});	    
 	}
 	
 	$ionicPlatform.ready(function() {
-			var appId = 0;
-			console.log('Device Ready - SettingsCtrl loaded --- '); 
-			console.log('Device Ready - SettingsCtrl loaded ***' + $scope.settingsConfig[appId].com); 
-			$scope.text = 'checking apps for ' + $scope.settingsConfig[appId].com;
-			for(i = 0;i < $scope.settingsConfig.length;i++)
+			//If platform is ready, check app availability and set accordingly
+			for(i = 0;i < $rootScope.userInfo.settings.length;i++)
 			{
-				console.log('checking for: '+$scope.settingsConfig[i].com);
-				var ret = $scope.IsAppAvailiable(i);
-				console.log('Device Ready - SettingsCtrl loaded, Return = '+ret); 	
+				console.log('checking for: '+$rootScope.userInfo.settings[i].com);
+				//var ret = $scope.IsAppAvailiable(i);
+				//console.log('Device Ready - SettingsCtrl loaded, Return = '+ret); 	
 			}
 	});	
 	$scope.confirmSetting = function(){

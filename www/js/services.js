@@ -46,7 +46,7 @@ angular.module('starter.services', [])
   //var userName = 'My Name';
   var user = 
     { userName: '', firstName:'',lastName: '', email: '', password: '', retypePassword:'',signedIn: false};
-
+	
   return {
 	getUser: function(){
 		return user;
@@ -72,7 +72,11 @@ angular.module('starter.services', [])
 	return {
 	getSocket: function(){
 		return socket;
+	},
+	closeSocket: function(){
+		socket.close();
 	}
+
   }
 })
 
